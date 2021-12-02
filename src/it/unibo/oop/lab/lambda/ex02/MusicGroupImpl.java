@@ -56,8 +56,9 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public int countSongs(final String albumName) {
-    	this.songs.removeIf(s -> !s.albumName.isPresent());
-    	return (int)this.songs.stream().filter(s -> s.albumName.get().equals(albumName)).count();
+    	final Set<Song> copy = new HashSet<>(this.songs);
+    	copy.removeIf(s -> !s.albumName.isPresent());
+    	return (int)copy.stream().filter(s -> s.albumName.get().equals(albumName)).count();
     }
 
     @Override
