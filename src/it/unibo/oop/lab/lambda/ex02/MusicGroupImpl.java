@@ -62,7 +62,9 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public int countSongsInNoAlbum() {
-        return -1;
+    	final Set<Song> copy = new HashSet<>(this.songs);
+    	copy.removeIf(s -> s.albumName.isPresent());
+    	return (int)copy.stream().count();
     }
 
     @Override
