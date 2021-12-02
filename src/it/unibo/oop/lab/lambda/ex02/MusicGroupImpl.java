@@ -70,7 +70,12 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public OptionalDouble averageDurationOfSongs(final String albumName) {
-        return null;
+    	final Set<Song> copy = new HashSet<>(this.songs);
+    	copy.removeIf(s -> !s.albumName.isPresent());
+    	Optional<Double> sum = copy.stream().filter(s -> s.getAlbumName().equals(albumName)).map(s -> s.duration).reduce((d1, d2) -> d1 + d2);
+    	long total = copy.stream().filter(s -> s.getAlbumName().equals(albumName)).map(s -> s.duration).count();
+    	OptionalDouble res = OptionalDouble.of(sum.get() / total);
+        return res;
     }
 
     @Override
