@@ -84,10 +84,17 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Optional<String> longestAlbum() {
+    	final List<Pair<String, Double>> longest = new ArrayList<>();
+    	longest.add(new Pair<>(null, 0.0));
     	this.albums.forEach((album, year) -> {
-    		Pair<String, Double> longestAlbum;
+    		final Set<Song> copy = new HashSet<>(this.songs);
+    		copy.removeIf(s -> !s.getAlbumName().isPresent());
+    		double sum = copy.stream().filter(s -> s.getAlbumName().get().equals(album)).mapToDouble(s -> s.getDuration()).sum();
+    		if (sum > longest.get(0).getValue()) {
+    			longest.set(0, new Pair<>(album, sum));
+    		}
     	});
-        return null;
+        return Optional.of(longest.get(0).getKey());
     }
 
     private static final class Song {
