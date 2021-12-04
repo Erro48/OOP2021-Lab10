@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.Set;
 import java.util.stream.Stream;
+import javafx.util.Pair;
 
 /**
  *
@@ -83,6 +84,9 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Optional<String> longestAlbum() {
+    	this.albums.forEach((album, year) -> {
+    		Pair<String, Double> longestAlbum;
+    	});
         return null;
     }
 
