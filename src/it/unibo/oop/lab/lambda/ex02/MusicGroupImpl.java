@@ -34,7 +34,10 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Stream<String> orderedSongNames() {
-        return this.songs.stream().map(s -> s.getSongName()).sorted();
+        return this.songs
+        		.stream()
+        		.map(s -> s.getSongName())
+        		.sorted();
     }
 
     @Override
@@ -59,27 +62,40 @@ public final class MusicGroupImpl implements MusicGroup {
     public int countSongs(final String albumName) {
     	final Set<Song> copy = new HashSet<>(this.songs);
     	copy.removeIf(s -> !s.albumName.isPresent());
-    	return (int)copy.stream().filter(s -> s.albumName.get().equals(albumName)).count();
+    	return (int)copy
+    			.stream()
+    			.filter(s -> s.albumName.get().equals(albumName))
+    			.count();
     }
 
     @Override
     public int countSongsInNoAlbum() {
     	final Set<Song> copy = new HashSet<>(this.songs);
     	copy.removeIf(s -> s.albumName.isPresent());
-    	return (int)copy.stream().count();
+    	return (int)copy
+    			.stream()
+    			.count();
     }
 
     @Override
     public OptionalDouble averageDurationOfSongs(final String albumName) {
     	final Set<Song> copy = new HashSet<>(this.songs);
     	copy.removeIf(s -> !s.albumName.isPresent());
-    	return copy.stream().filter(s -> s.getAlbumName().get().equals(albumName)).mapToDouble(s -> s.duration).average();
+    	return copy
+    			.stream()
+    			.filter(s -> s.getAlbumName().get().equals(albumName))
+    			.mapToDouble(s -> s.duration)
+    			.average();
     }
 
     @Override
     public Optional<String> longestSong() {
     	OptionalDouble max = this.songs.stream().mapToDouble(s -> s.getDuration()).max();
-    	return this.songs.stream().filter(s -> Double.compare(s.getDuration(), max.orElse(0)) == 0).map(s -> s.getSongName()).findFirst();
+    	return this.songs
+    			.stream()
+    			.filter(s -> Double.compare(s.getDuration(), max.orElse(0)) == 0)
+    			.map(s -> s.getSongName())
+    			.findFirst();
     }
 
     @Override
@@ -89,7 +105,11 @@ public final class MusicGroupImpl implements MusicGroup {
     	this.albums.forEach((album, year) -> {
     		final Set<Song> copy = new HashSet<>(this.songs);
     		copy.removeIf(s -> !s.getAlbumName().isPresent());
-    		double sum = copy.stream().filter(s -> s.getAlbumName().get().equals(album)).mapToDouble(s -> s.getDuration()).sum();
+    		double sum = copy
+    				.stream()
+    				.filter(s -> s.getAlbumName().get().equals(album))
+    				.mapToDouble(s -> s.getDuration())
+    				.sum();
     		if (sum > longest.get(0).getValue()) {
     			longest.set(0, new Pair<>(album, sum));
     		}
