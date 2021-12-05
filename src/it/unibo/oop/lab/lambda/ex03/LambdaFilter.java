@@ -48,7 +48,7 @@ public final class LambdaFilter extends JFrame {
         ORDER("Order the words in alphabetical order", s -> Arrays.stream(s.split(" ")).sorted().reduce("", (s1, s2) -> s1.concat(s2 + " "))),
         COUNTWORDS("Count each words", s -> {
         	final Map<String, Integer> words = new HashMap<>();
-        	Arrays.stream(s.split(" ")).forEach(w -> {
+        	Arrays.stream(s.split("[ \n\t]")).forEach(w -> {
         		// remove chars that are not letters
         		System.out.println(w);
         		w = w.toLowerCase();
