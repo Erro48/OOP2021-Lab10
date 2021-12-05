@@ -43,9 +43,24 @@ public final class LambdaFilter extends JFrame {
     private enum Command {
         IDENTITY("No modifications", Function.identity()),
         LOWERCASE("To lowercase", (s1) -> s1.toLowerCase()),
-        COUNTCHARS("Count number of chars", s -> Long.toString(s.chars().filter(c -> c != '\n').count())),
-        COUNTLINES("Count number of lines", s -> Long.toString(1 + s.chars().filter(c -> c == '\n').count())),
-        ORDER("Order the words in alphabetical order", s -> Arrays.stream(s.split(" ")).sorted().reduce("", (s1, s2) -> s1.concat(s2 + " "))),
+        COUNTCHARS("Count number of chars", s -> Long.toString(
+        		s
+        		.chars()
+        		.filter(c -> c != '\n')
+        		.count())
+        ),
+        COUNTLINES("Count number of lines", s -> Long.toString(1 + 
+        		s
+        		.chars()
+        		.filter(c -> c == '\n')
+        		.count())
+        ),
+        ORDER("Order the words in alphabetical order", s -> Arrays.stream(
+        		s
+        		.split(" "))
+        		.sorted()
+        		.reduce("", (s1, s2) -> s1.concat(s2 + " "))
+        ),
         COUNTWORDS("Count each words", s -> {
         	final Map<String, Integer> words = new HashMap<>();
         	Arrays.stream(s.split("[ \n\t]")).forEach(w -> {
