@@ -7,6 +7,12 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.util.function.Function;
+import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -38,7 +44,16 @@ public final class LambdaFilter extends JFrame {
         IDENTITY("No modifications", Function.identity()),
         LOWERCASE("To lowercase", (s1) -> s1.toLowerCase()),
         COUNTCHARS("Count number of chars", s -> Long.toString(s.chars().filter(c -> c != '\n').count())),
-        COUNTLINES("Count number of lines", s -> Long.toString(1 + s.chars().filter(c -> c == '\n').count()));
+        COUNTLINES("Count number of lines", s -> Long.toString(1 + s.chars().filter(c -> c == '\n').count())),
+        ORDER("Order the words in alphabetical order", s -> Arrays.stream(s.split(" ")).sorted().reduce("", (s1, s2) -> s1.concat(s2 + " "))),
+        COUNTWORDS("Count each words", s -> {
+        	final Map<String, Integer> words = new HashMap<>();
+        	Arrays.stream(s.split(" ")).forEach(w -> words.compute(w, (k, v) -> words.containsKey(k) ? words.get(k) + 1 : 1));
+        	List<String> resultString = new ArrayList<>(0);
+        	resultString.add("");
+        	words.forEach((k, v) -> resultString.add(0, resultString.get(0) + k + " -> " + v + "\n"));
+        	return resultString.get(0);
+        });
 
         private final String commandName;
         private final Function<String, String> fun;
