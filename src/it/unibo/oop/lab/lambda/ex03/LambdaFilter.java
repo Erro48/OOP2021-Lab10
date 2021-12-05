@@ -50,14 +50,12 @@ public final class LambdaFilter extends JFrame {
         	final Map<String, Integer> words = new HashMap<>();
         	Arrays.stream(s.split("[ \n\t]")).forEach(w -> {
         		// remove chars that are not letters
-        		System.out.println(w);
         		w = w.toLowerCase();
         		w = w.chars()
         			 .filter(ch -> ch >= 'a' && ch <= 'z')
         			 .mapToObj(i -> (char)i)
         			 .map(e -> e.toString())
         			 .reduce("", String::concat);
-        		System.out.println(w);
         		words.compute(w, (k, v) -> words.containsKey(k) ? words.get(k) + 1 : 1);
         	});
         	List<String> resultString = new ArrayList<>(0);
